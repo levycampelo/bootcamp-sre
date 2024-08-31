@@ -1,5 +1,5 @@
 # configurar credenciais IAM
-aws configure
+```aws configure```
 
 # usuario do IAM
 ```AWS Access Key ID [None]: <id>\```
