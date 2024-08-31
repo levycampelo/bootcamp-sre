@@ -137,4 +137,37 @@ resource "aws_instance" "back-end" {
   tags = {
     Name = "bootcamp-sre"
   }
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
 }
+
+# Criar um IAM Role e uma política para o SSM
+resource "aws_iam_role" "ssm_role" {
+  name = "SSMRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
+# Anexar a política gerenciada do SSM ao IAM Role
+resource "aws_iam_role_policy_attachment" "ssm_role_policy" {
+  role       = aws_iam_role.ssm_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+# Criar um IAM Instance Profile para associar ao EC2
+resource "aws_iam_instance_profile" "ssm_profile" {
+  name = "SSMInstanceProfile"
+  role = aws_iam_role.ssm_role.name
+}
+
+
