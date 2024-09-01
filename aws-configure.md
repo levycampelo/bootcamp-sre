@@ -1,5 +1,5 @@
 ## configurar credenciais IAM
-```
+```bash
 $ aws configure
 ```
 
