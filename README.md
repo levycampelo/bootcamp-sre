@@ -5,3 +5,7 @@ https://elven.works/
 Livro SRE\
 https://elven.works/livro-sre-google/
 
+### Projeto wordpress
+- [ ] Criar VPC 192.168.250.0/24
+
+
