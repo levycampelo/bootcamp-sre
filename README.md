@@ -6,6 +6,15 @@ Livro SRE\
 https://elven.works/livro-sre-google/
 
 ### Projeto wordpress
-- [ ] Criar VPC 192.168.250.0/24
-
-
+- [x] criar vpc 192.168.250.0/24
+- [x] criar subnets publica, privada e database
+- [x] criar internet gw
+- [x] criar nat gateway
+- [x] ajustar tabela de rotas
+- [x] criar bucket s3
+- [x] criar iam role para ssm
+- [ ] criar ec2 de back-end com autoscaling
+- [ ] criar network-loadbalance
+- [ ] criar rds
+- [ ] ajustar security-group
+- [ ] instalar wordpress com ansible
