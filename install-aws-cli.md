@@ -1,4 +1,4 @@
-## Atualizar pacote
+## atualizar pacote
 ```bash
 $ sudo apt-get update
 $ sudo apt-get install unzip curl -y
@@ -11,7 +11,7 @@ $ unzip awscliv2.zip
 $ sudo ./aws/install
 ```
 
-## Verificar versao
+## verificar versao
 ```bash
 $ aws --version
 ```
