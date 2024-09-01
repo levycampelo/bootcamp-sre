@@ -5,13 +5,14 @@ https://elven.works/
 Livro SRE\
 https://elven.works/livro-sre-google/
 
-### Tecnologias:
+### Tecnologias :
 
 - [AWS] (https://console.aws.amazon.com)
 - [Terraform] (https://www.terraform.io/)
 - [Wordpress] (https://wordpress.org/)
+- [Ansible] (https://www.ansible.com/)
 
-### Projeto wordpress:
+### Projeto wordpress :
 - [x] criar vpc 192.168.250.0/24
 - [x] criar subnets publica, privada e database
 - [x] criar internet gw
