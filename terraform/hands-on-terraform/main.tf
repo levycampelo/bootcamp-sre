@@ -1,292 +1,185 @@
-# criar um bucket s3
-resource "aws_s3_bucket" "bootcamp-sre" {
-  bucket = var.bootcamp_sre 
- 
+// definir provedor
+provider "aws" {
+  region = "us-east-1"
+}
+
+// criar a vpc
+resource "aws_vpc" "bootcamp" {
+  cidr_block = var.vpc_cidr
+  instance_tenancy = "default"
+  enable_dns_hostnames = true
   tags = {
-    Name = "bootcamp-sre"
-    Environment = "prod"
+    Name = var.vpc_name,
+    Terraformed = "true" 
   }
 }
 
-# criar a nova vpc
-resource "aws_vpc" "bootcamp-sre" {
-  cidr_block = "192.168.250.0/24"
-
+// criar as subnets
+resource "aws_subnet" "subnet-publica-1"{
+  vpc_id = aws_vpc.bootcamp.id
+  cidr_block = var.subnet_publica-1_cidr
   tags = {
-    Name = "bootcamp-sre"
+    Name = var.subnet_publica-1_name,
+    Terraformed = "true"
+  }
+  depends_on = [
+    aws_vpc.bootcamp
+  ]
+}
+
+resource "aws_subnet" "subnet-publica-2"{
+  vpc_id = aws_vpc.bootcamp.id
+  cidr_block = var.subnet_publica-2_cidr
+  tags = {
+    Name = var.subnet_publica-2_name,
+    Terraformed = "true"
+  }
+   depends_on = [
+    aws_vpc.bootcamp
+  ]
+}
+
+resource "aws_subnet" "subnet-privada-1"{
+  vpc_id = aws_vpc.bootcamp.id
+  cidr_block = var.subnet_privada-1_cidr
+  tags = {
+    Name = var.subnet_privada-1_name,
+    Terraformed = "true"
+  }
+   depends_on = [
+    aws_vpc.bootcamp
+  ]
+}
+
+resource "aws_subnet" "subnet-privada-2"{
+  vpc_id = aws_vpc.bootcamp.id
+  cidr_block = var.subnet_privada-2_cidr
+  tags = {
+    Name = var.subnet_privada-2_name,
+    Terraformed = "true"
+  }
+   depends_on = [
+    aws_vpc.bootcamp
+  ]
+}
+
+//criar internet gateway
+resource "aws_internet_gateway" "internet-gw"{
+  vpc_id = aws_vpc.bootcamp.id
+  tags = {
+    Name = "internet-gw"
+    Terraformed = "true"
+  }
+   depends_on = [
+    aws_vpc.bootcamp
+  ]
+}
+
+//criar ip elastico
+resource "aws_eip" "eip-nat-gw-1"{
+  vpc = true
+  tags = {
+    Terraformed = true
+  }
+   depends_on = [
+    aws_vpc.bootcamp,
+    aws_internet_gateway.internet-gw
+  ]
+}
+
+resource "aws_eip" "eip-nat-gw-2"{
+  vpc = true
+  tags = {
+    Terraformed = true
+  }
+  depends_on = [
+    aws_vpc.bootcamp,
+    aws_internet_gateway.internet-gw
+  ]
+}
+
+//criar os nat-gw
+resource "aws_nat_gateway" "nat-gw-1" {
+    allocation_id = aws_eip.eip-nat-gw-1.id
+    subnet_id = aws_subnet.subnet-publica-1.id 
+    depends_on = [
+    aws_vpc.bootcamp,
+    aws_internet_gateway.internet-gw,
+    aws_eip.eip-nat-gw-1
+  ]
+}
+
+resource "aws_nat_gateway" "nat-gw-2" {
+    allocation_id = aws_eip.eip-nat-gw-2.id
+    subnet_id = aws_subnet.subnet-publica-2.id
+     depends_on = [
+    aws_vpc.bootcamp,
+    aws_internet_gateway.internet-gw,
+    aws_eip.eip-nat-gw-2
+  ]
+}
+
+//tabela de roteamento
+resource "aws_route_table" "publica" {
+    vpc_id = aws_vpc.bootcamp.id
+    route {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_internet_gateway.internet-gw.id
+  }
+  tags = {
+    Name = "rtb-publica"
   }
 }
 
-# criar uma subnet-public 
-resource "aws_subnet" "public_subnet" {
-  vpc_id            = aws_vpc.bootcamp-sre.id
-  cidr_block        = "192.168.250.0/27" 
-  availability_zone = "us-east-1a"
-    
-  tags = {
-    Name = "public-subnet"
-  }
-}
-
-# criar uma subnet-privada
-resource "aws_subnet" "private_subnet" {
-  vpc_id            = aws_vpc.bootcamp-sre.id
-  cidr_block        = "192.168.250.32/27" 
-  availability_zone = "us-east-1a"
-
-  tags = {
-    Name = "private-subnet"
-  }
-}
-
-# criar uma subnet-database
-resource "aws_subnet" "database_subnet" {
-  vpc_id            = aws_vpc.bootcamp-sre.id
-  cidr_block        = "192.168.250.64/27"  
-  availability_zone = "us-east-1a"
-
-  tags = {
-    Name = "database-subnet"
-  }
-}
-# criar o internet gateway
-resource "aws_internet_gateway" "my_igw" {
-  vpc_id = aws_vpc.bootcamp-sre.id
-
-  tags = {
-    Name = "my-igw"
-  }
-}
-
-# routing-table subnet-publica
-resource "aws_route_table" "public_route_table" {
-  vpc_id = aws_vpc.bootcamp-sre.id
-
+resource "aws_route_table" "privada-1" {
+  vpc_id = aws_vpc.bootcamp.id
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.my_igw.id
+    nat_gateway_id = aws_nat_gateway.nat-gw-1.id
   }
-
   tags = {
-    Name = "public-route-table"
+    Name = "rtb-privada-1"
   }
+   depends_on = [
+    aws_vpc.bootcamp,
+    aws_internet_gateway.internet-gw
+  ]
 }
 
-# associar routing-table subnet-publica
-resource "aws_route_table_association" "public_subnet_association" {
-  subnet_id      = aws_subnet.public_subnet.id
-  route_table_id = aws_route_table.public_route_table.id
-}
-
-# criar o nat gateway subnet-publica
-resource "aws_nat_gateway" "my_nat" {
-  allocation_id = aws_eip.my_eip.id
-  subnet_id     = aws_subnet.public_subnet.id
-
-  tags = {
-    Name = "my-nat"
-  }
-}
-
-# associar ip elastico
-resource "aws_eip" "my_eip" {
-  domain = "vpc"
-}
-
-# routing-table subnet-privada
-resource "aws_route_table" "private_route_table" {
-  vpc_id = aws_vpc.bootcamp-sre.id
-
+resource "aws_route_table" "privada-2" {
+  vpc_id = aws_vpc.bootcamp.id
   route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.my_nat.id
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat-gw-2.id
   }
-
   tags = {
-    Name = "private-route-table"
+    Name = "rtb-privada-2"
   }
+   depends_on = [
+    aws_vpc.bootcamp,
+    aws_internet_gateway.internet-gw
+  ]
 }
 
-# associar routing-table subnet-privada
-resource "aws_route_table_association" "private_subnet_association" {
-  subnet_id      = aws_subnet.private_subnet.id
-  route_table_id = aws_route_table.private_route_table.id
+
+//criar associacao entre routing table e subnets
+resource "aws_route_table_association" "rtb-publica-1" {
+  subnet_id = aws_subnet.subnet-publica-1.id
+  route_table_id = aws_route_table.publica.id
 }
 
-# routing-table subnet-database
-resource "aws_route_table" "database_route_table" {
-  vpc_id = aws_vpc.bootcamp-sre.id
-
-  tags = {
-    Name = "database-route-table"
-  }
+resource "aws_route_table_association" "rtb-publica-2" {
+  subnet_id = aws_subnet.subnet-publica-2.id
+  route_table_id = aws_route_table.publica.id
 }
 
-#  associar routing-table subnet-database
-resource "aws_route_table_association" "database_subnet_association" {
-  subnet_id      = aws_subnet.database_subnet.id
-  route_table_id = aws_route_table.database_route_table.id
+resource "aws_route_table_association" "rtb-privada-1" {
+  subnet_id = aws_subnet.subnet-privada-1.id
+  route_table_id = aws_route_table.publica.id
+}
+resource "aws_route_table_association" "rtb-privada-2" {
+  subnet_id = aws_subnet.subnet-privada-2.id
+  route_table_id = aws_route_table.publica.id
 }
 
-# criar um ec2 teste com ami amazonlinux com ssm
-resource "aws_instance" "back-end" {
-  ami           = "ami-066784287e358dad1" 
-  instance_type = "t2.micro" 
-  subnet_id = aws_subnet.private_subnet.id
-
-  tags = {
-    Name = "bootcamp-sre"
-  }
-  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
-}
-
-# criar uma iam role para acesso ssm
-resource "aws_iam_role" "ssm_role" {
-  name = "SSMRole"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-}
-
-# associar a iam role ssm
-resource "aws_iam_role_policy_attachment" "ssm_role_policy" {
-  role       = aws_iam_role.ssm_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-}
-
-# criar uma iam instance para associar a ec2
-resource "aws_iam_instance_profile" "ssm_profile" {
-  name = "SSMInstanceProfile"
-  role = aws_iam_role.ssm_role.name
-}
-
-#### Teste do ASG
-# criar o sg para o loadbalance
-resource "aws_security_group" "lb_sg" {
-  name   = "lb_sg"
-  vpc_id = aws_vpc.bootcamp-sre.id 
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "lb-sg"
-  }
-}
-
-# criar o tg para o NLB
-resource "aws_lb_target_group" "target_group" {
-  name     = "bootcamp-sre-tg"
-  port     = 80
-  protocol = "TCP"
-  vpc_id   = aws_vpc.bootcamp-sre.id
-
-  health_check {
-    protocol = "TCP"
-    port     = "traffic-port"
-  }
-
-  tags = {
-    Name = "bootcamp-sre-tg"
-  }
-}
-
-# criar o nlb
-resource "aws_lb" "nlb" {
-  name               = "bootcamp-sre-nlb"
-  internal           = false
-  load_balancer_type = "network"
-  security_groups    = [aws_security_group.lb_sg.id]
-  subnets            = [aws_subnet.public_subnet.id]
-
-  tags = {
-    Name = "bootcamp-sre-nlb"
-  }
-}
-
-# adicionar o listener
-resource "aws_lb_listener" "nlb_listener" {
-  load_balancer_arn = aws_lb.nlb.arn
-  port              = 80
-  protocol          = "TCP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
-  }
-}
-
-# launch ec2 modelo
-resource "aws_launch_template" "ec2_template" {
-  name_prefix   = "bootcamp-sre-template"
-  image_id      = "ami-066784287e358dad1" # Amazon Linux 2
-  instance_type = "t2.micro"
-  iam_instance_profile {
-    name = aws_iam_instance_profile.ssm_profile.name
-  }
-
-  tag_specifications {
-    resource_type = "instance"
-    tags = {
-      Name = "bootcamp-sre-ec2"
-    }
-  }
-
-  network_interfaces {
-    associate_public_ip_address = true
-    security_groups             = [aws_security_group.lb_sg.id]
-    subnet_id                   = aws_subnet.public_subnet.id
-  }
-}
-
-# asg
-resource "aws_autoscaling_group" "asg" {
-  desired_capacity     = 1
-  max_size             = 2
-  min_size             = 1
-  vpc_zone_identifier  = [aws_subnet.public_subnet.id]
-  target_group_arns    = [aws_lb_target_group.target_group.arn]
-  launch_template {
-    id      = aws_launch_template.ec2_template.id
-    version = "$Latest"
-  }
-
-  tag {
-    key                 = "Name"
-    value               = "bootcamp-sre-ec2"
-    propagate_at_launch = true
-  }
-
-  health_check_type         = "EC2"
-  health_check_grace_period = 300
-
-  force_delete = true
-}
-
-# associar nlb para asg
-resource "aws_autoscaling_attachment" "asg_attachment" {
-  autoscaling_group_name = aws_autoscaling_group.asg.name
-  lb_target_group_arn   = aws_lb_target_group.target_group.arn
-}
 
