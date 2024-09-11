@@ -2,13 +2,13 @@
 - [Bootcamp-sre elven.works] (https://elven.works)
 - [Livro SRE] (https://elven.works/livro-sre-google)
 
-### tecnologias :
+### tecnologias:
 - [AWS] (https://console.aws.amazon.com)
 - [Terraform] (https://www.terraform.io/)
 - [Wordpress] (https://wordpress.org/)
 - [Ansible] (https://www.ansible.com/)
 
-### projeto wordpress :
+### projeto:
 - [x] criar vpc 192.168.250.0/24
 - [x] criar subnets publica, privada e database
 - [x] criar internet gw
