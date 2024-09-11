@@ -9,7 +9,7 @@
 - [Ansible] (https://www.ansible.com/)
 
 ### projeto:
-- [x] criar vpc 192.168.250.0/24
+- [x] criar vpc
 - [x] criar subnets publica, privada e database
 - [x] criar internet gw
 - [x] criar nat gateway
