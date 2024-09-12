@@ -77,7 +77,7 @@ resource "aws_internet_gateway" "internet-gw"{
 
 //criar ip elastico
 resource "aws_eip" "eip-nat-gw-1"{
-  vpc = true
+  domain = "vpc"
   tags = {
     Terraformed = true
   }
@@ -88,7 +88,7 @@ resource "aws_eip" "eip-nat-gw-1"{
 }
 
 resource "aws_eip" "eip-nat-gw-2"{
-  vpc = true
+  domain = "vpc"
   tags = {
     Terraformed = true
   }
@@ -161,7 +161,6 @@ resource "aws_route_table" "privada-2" {
   ]
 }
 
-
 //criar associacao entre routing table e subnets
 resource "aws_route_table_association" "rtb-publica-1" {
   subnet_id = aws_subnet.subnet-publica-1.id
@@ -181,5 +180,3 @@ resource "aws_route_table_association" "rtb-privada-2" {
   subnet_id = aws_subnet.subnet-privada-2.id
   route_table_id = aws_route_table.publica.id
 }
-
-
