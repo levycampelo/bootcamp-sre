@@ -1,0 +1,39 @@
+---
+- name: instalar webserver
+  hosts: webserver
+  become: yes
+
+  tasks:
+  - name: instalar nginx
+    apt:
+      name: nginx
+      state: latest
+      update_cache: yes
+  
+  - name: instalar php
+    apt:
+      name: php
+      state: latest
+      update_cache: yes
+
+  - name: iniciar nginx
+    service: 
+      name: nginx
+      state: started
+      enabled: yes 
+  
+  - name: atualizar index
+    copy: 
+      dest: /var/www/html
+      group: root
+      owner: root
+      mode: "0644"
+      src: meusite/index.html
+    notify:
+    - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
