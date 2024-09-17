@@ -1,0 +1,12 @@
+---
+- name: Instalar o webserver na EC2 através roles
+  hosts: tag_webserver_true
+  vars:
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: "~/chave/webserver.pem"
+  become: yes
+
+  roles:
+    - common
+    - webserver
+
