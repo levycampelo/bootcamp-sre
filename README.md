@@ -5,11 +5,13 @@
 ### tecnologias:
 - [AWS] (https://console.aws.amazon.com)
 - [Terraform] (https://www.terraform.io/)
+- [Terratest] (https://terratest.gruntwork.io/)
 - [Wordpress] (https://wordpress.org/)
 - [Ansible] (https://www.ansible.com/)
 
 ### projeto:
-- [x] criar vpc
+- [x] hands-on-network
+> criação de toda infraestrutura de rede (vpc, subnets, routing-tables, internet gw e nat gw)
 - [x] criar subnets publica, privada e database
 - [x] criar internet gw
 - [x] criar nat gateway
