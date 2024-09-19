@@ -6,7 +6,6 @@
 - [AWS] (https://console.aws.amazon.com)
 - [Terraform] (https://www.terraform.io/)
 - [Terratest] (https://terratest.gruntwork.io/)
-- [Wordpress] (https://wordpress.org/)
 - [Ansible] (https://www.ansible.com/)
 
 ### atividades
