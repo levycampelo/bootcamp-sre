@@ -1,15 +1,15 @@
-### bootcamp-sre:
-- [Bootcamp-sre elven.works] (https://elven.works)
+### bootcamp-sre
+- [Bootcamp-SRE] (https://elven.works)
 - [Livro SRE] (https://elven.works/livro-sre-google)
 
-### tecnologias:
+### tecnologias
 - [AWS] (https://console.aws.amazon.com)
 - [Terraform] (https://www.terraform.io/)
 - [Terratest] (https://terratest.gruntwork.io/)
 - [Wordpress] (https://wordpress.org/)
 - [Ansible] (https://www.ansible.com/)
 
-### atividades:
+### atividades
 - [x] Tarefa 01 (hands-on-network)
 	* criação de toda infraestrutura de rede (vpc, subnets, routing-tables, internet gw e nat gw)
 - [x] Tarefa 02 (hands-on-terraform)
