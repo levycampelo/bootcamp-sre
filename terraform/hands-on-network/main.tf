@@ -1,9 +1,9 @@
 # criar um bucket s3
 resource "aws_s3_bucket" "bootcamp-sre" {
-  bucket = "bootcamp-sre" 
+  bucket = "bootcamp-sre-tf-state" 
  
   tags = {
-    Name = "bootcamp-sre"
+    Name = "bootcamp-sre-tf-state"
     Environment = "prod"
   }
 }
