@@ -19,7 +19,7 @@
 - [x] Tarefa 04 (hands-on-ansible)
 > configurar uma ec2 instalando pacotes nginx e php.
 - [x] Tarefa 05 (hands-on-ansible-2)
-> configurar 3 ec2 instalando, utilizando inventario dinamico e roles.
+	* * configurar 3 ec2 instalando, utilizando inventario dinamico e roles.
 - [ ] Tarefa 06
 - [ ] Tarefa 07
 - [ ] Tarefa 0X 
