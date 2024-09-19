@@ -10,9 +10,10 @@
 - [Ansible] (https://www.ansible.com/)
 
 ### projeto:
-- [x] hands-on-network
+- [x] Tarefa 01 (hands-on-network)
 > criação de toda infraestrutura de rede (vpc, subnets, routing-tables, internet gw e nat gw)
-- [x] criar subnets publica, privada e database
+- [x] Tarefa 02 (hands-on-terraform)
+> criação de toda infraestrutura de rede utilizando terraform (variables e tfvars)
 - [x] criar internet gw
 - [x] criar nat gateway
 - [x] ajustar tabela de rotas
