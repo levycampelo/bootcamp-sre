@@ -1,0 +1,34 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.8 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.8">
+  <diagram name="Página-1" id="_anwXlCnqJPPbHWU8wGq">
+    <mxGraphModel dx="1338" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="EWCSJ_XArMaPQ7Oecqpo-1" value="AWS Account" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_account;strokeColor=#CD2264;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#CD2264;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="190" width="470" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="EWCSJ_XArMaPQ7Oecqpo-2" value="Banco RDS (MySQL)" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.rds;fillColor=#2E73B8;gradientColor=none;" vertex="1" parent="EWCSJ_XArMaPQ7Oecqpo-1">
+          <mxGeometry x="54.5" y="40" width="72" height="81" as="geometry" />
+        </mxCell>
+        <mxCell id="EWCSJ_XArMaPQ7Oecqpo-3" value="Instancia EC2 (Wordpress)" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.ec2;fillColor=#F58534;gradientColor=none;" vertex="1" parent="EWCSJ_XArMaPQ7Oecqpo-1">
+          <mxGeometry x="50" y="190" width="76.5" height="93" as="geometry" />
+        </mxCell>
+        <mxCell id="EWCSJ_XArMaPQ7Oecqpo-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="EWCSJ_XArMaPQ7Oecqpo-1" source="EWCSJ_XArMaPQ7Oecqpo-4" target="EWCSJ_XArMaPQ7Oecqpo-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EWCSJ_XArMaPQ7Oecqpo-4" value="Load-Balance" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.application_load_balancer;fillColor=#F58536;gradientColor=none;" vertex="1" parent="EWCSJ_XArMaPQ7Oecqpo-1">
+          <mxGeometry x="255" y="129" width="69" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="EWCSJ_XArMaPQ7Oecqpo-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="EWCSJ_XArMaPQ7Oecqpo-1" source="EWCSJ_XArMaPQ7Oecqpo-3" target="EWCSJ_XArMaPQ7Oecqpo-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EWCSJ_XArMaPQ7Oecqpo-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="EWCSJ_XArMaPQ7Oecqpo-5" target="EWCSJ_XArMaPQ7Oecqpo-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EWCSJ_XArMaPQ7Oecqpo-5" value="Usuario" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.user;" vertex="1" parent="1">
+          <mxGeometry x="680" y="330" width="47.5" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
