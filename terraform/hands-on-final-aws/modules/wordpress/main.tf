@@ -53,6 +53,7 @@ resource "aws_instance" "webserver" {
     volume_size = "10"
   }
   tags = {
+    Name = "wordpress"
     Terraformed = "true"
     webserver = "true"
   }
@@ -113,7 +114,7 @@ resource "aws_db_instance" "rds_mysql" {
   instance_class = var.rds_size
   username = var.rds_username
   password = var.rds_password
-  parameter_group_name = "default.mysql8"
+  parameter_group_name = "default.mysql8.0"
   skip_final_snapshot = true
   apply_immediately = true
   vpc_security_group_ids = [aws_security_group.rds-sg.id]
