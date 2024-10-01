@@ -1,0 +1,22 @@
+---
+  - name: pacotes basicos
+    apt: 
+      name: "{{ packages }}"
+      state: latest
+      update_cache: yes
+
+  - name: iniciar nginx
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+
+  - name: atualizar index site
+    copy:
+      dest: "{{ index_path }}"
+      group: root
+      owner: root
+      mode: "0644"
+      src: files/index.html
+    notify: 
+    - restart nginx
