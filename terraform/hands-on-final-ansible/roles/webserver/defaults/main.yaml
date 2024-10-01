@@ -2,3 +2,5 @@
 packages:
     - nginx
     - php
+    - php-fpm
+    - php-mysql
