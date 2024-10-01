@@ -108,11 +108,12 @@ resource "aws_db_instance" "rds_mysql" {
   allocated_storage = 10
   identifier = "wp-database"
   publicly_accessible = true
-  engine = "5.7"
+  engine = "mysql"
+  engine_version = "8.0.35"
   instance_class = var.rds_size
   username = var.rds_username
   password = var.rds_password
-  parameter_group_name = "default.mysql5.7"
+  parameter_group_name = "default.mysql8"
   skip_final_snapshot = true
   apply_immediately = true
   vpc_security_group_ids = [aws_security_group.rds-sg.id]
