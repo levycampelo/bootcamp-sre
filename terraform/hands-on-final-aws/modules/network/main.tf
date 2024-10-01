@@ -13,6 +13,7 @@ resource "aws_vpc" "bootcamp" {
 resource "aws_subnet" "subnet-publica-1"{
   vpc_id = aws_vpc.bootcamp.id
   cidr_block = var.subnet_publica-1_cidr
+  availability_zone = "us-east-1a"
   tags = {
     Name = var.subnet_publica-1_name,
     Terraformed = "true"
@@ -25,6 +26,7 @@ resource "aws_subnet" "subnet-publica-1"{
 resource "aws_subnet" "subnet-publica-2"{
   vpc_id = aws_vpc.bootcamp.id
   cidr_block = var.subnet_publica-2_cidr
+  availability_zone = "us-east-1b"
   tags = {
     Name = var.subnet_publica-2_name,
     Terraformed = "true"
@@ -37,6 +39,7 @@ resource "aws_subnet" "subnet-publica-2"{
 resource "aws_subnet" "subnet-privada-1"{
   vpc_id = aws_vpc.bootcamp.id
   cidr_block = var.subnet_privada-1_cidr
+  availability_zone = "us-east-1a"
   tags = {
     Name = var.subnet_privada-1_name,
     Terraformed = "true"
@@ -49,6 +52,7 @@ resource "aws_subnet" "subnet-privada-1"{
 resource "aws_subnet" "subnet-privada-2"{
   vpc_id = aws_vpc.bootcamp.id
   cidr_block = var.subnet_privada-2_cidr
+  availability_zone = "us-east-1b"
   tags = {
     Name = var.subnet_privada-2_name,
     Terraformed = "true"

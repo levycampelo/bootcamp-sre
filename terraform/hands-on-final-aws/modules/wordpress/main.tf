@@ -1,3 +1,4 @@
+// criar a ec2
 resource "aws_security_group" "ec2-sg" {
   name = var.ec2_sg_name
   description = "permitir todo trafego de entrada para vpc"
@@ -58,6 +59,7 @@ resource "aws_instance" "webserver" {
   
 }
 
+//criar o rds
 resource "aws_security_group" "rds-sg" {
   name = var.rds_sg_name
   description = "permitir todo trafego de entrada para vpc"
@@ -106,11 +108,11 @@ resource "aws_db_instance" "rds_mysql" {
   allocated_storage = 10
   identifier = "wp-database"
   publicly_accessible = true
-  engine = "8.0"
+  engine = "5.7"
   instance_class = var.rds_size
   username = var.rds_username
   password = var.rds_password
-  parameter_group_name = "default.mysql8.0"
+  parameter_group_name = "default.mysql5.7"
   skip_final_snapshot = true
   apply_immediately = true
   vpc_security_group_ids = [aws_security_group.rds-sg.id]
@@ -120,6 +122,7 @@ resource "aws_db_instance" "rds_mysql" {
   }
 }
 
+//target group
 resource "aws_lb_target_group" "webserver" {
   name = "webserver-wp"
   port = 80
