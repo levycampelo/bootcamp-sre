@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"  # Defina a região desejada
+  region = "us-east-1" 
 }
 
 resource "aws_s3_bucket" "tf_state" {
@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "tf_state" {
   force_destroy = true
 
   tags = {
-    Name        = "Terraform State Bucket"
+    Name        = "Guarda tf-state"
     Environment = "Bootcamp"
   }
 }
